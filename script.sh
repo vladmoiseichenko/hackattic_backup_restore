@@ -5,11 +5,15 @@ set -euo pipefail
 # My token
 DEFAULT_TOKEN="b81e8bdb8bbdbeb9"
 
-# Prompt with ask for token
-read -p "Enter HackAttic access token [default: $DEFAULT_TOKEN]: " INPUT_TOKEN
-
-# Use default if Enter pressed
-TOKEN="${INPUT_TOKEN:-$DEFAULT_TOKEN}"
+# Using env variable
+if [ -z "${HACKATTIC_TOKEN:-}" ]; then
+    echo "HACKATTIC_TOKEN is not set, using default token"
+    echo "Run: export HACKATTIC_TOKEN=\"your_token_here\""
+    TOKEN="$DEFAULT_TOKEN"
+else
+    echo "Using token from environment variable HACKATTIC_TOKEN"
+    TOKEN="$HACKATTIC_TOKEN"
+fi
 
 # Url backup_restore challenge
 BASE_URL="https://hackattic.com/challenges/backup_restore"
